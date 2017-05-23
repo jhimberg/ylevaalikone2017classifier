@@ -185,7 +185,7 @@ classifier<-cv.glmnet(X,y,family="multinomial",
                       type.measure="class", 
                       standardize=TRUE, 
                       intercept=TRUE, 
-                      alpha=1, 
+                      alpha=0.9, 
                       nfold=5)
 
 
