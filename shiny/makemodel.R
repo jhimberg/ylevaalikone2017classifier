@@ -326,7 +326,8 @@ C1$C$var.imp$kysymys<-rownames(C1$C$var.imp)
 C2$C$var.imp<-varImp(C2$C$glmnet, lambda=C2$C$lambda.min)
 C2$C$var.imp$kysymys<-rownames(C2$C$var.imp)
 
-save(file="/home/rstudio/ShinyApps/sample-apps/test/malli.RData", C1, C2, ehdokkaat, yle)
+# Move the file to the proper place then...
+save(file="malli.RData", C1, C2, ehdokkaat, yle)
 
 
 
