@@ -1,4 +1,6 @@
-load("/home/rstudio/ShinyApps/sample-apps/test/malli.RData")
+
+# Muuta hakemisto oikeaksi!!
+load("./malli.RData")
 
 ## Ristiinvalidoinnin antama luokittelu sekaannusmatriisiin!
 
