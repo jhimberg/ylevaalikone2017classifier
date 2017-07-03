@@ -363,12 +363,13 @@ shinyUI(navbarPage(
       )),
   tabPanel("Luokittelutulos",
            fluidPage(
-             titlePanel("Mallin laatu"),
+             titlePanel("Mallin laatu"), br(),
+             textOutput("quality.m1"), br(),
              wellPanel("Matriisin sarake kuvaa prosenttiosuutta, jonka malli sijoittaa
-                       oikeasta puolueesta ennustettuun puolueeseen. Sarake: TODELLINEN PUOLUE, rivi: ennustettu puolue. Lävistäjällä on siis kunkin luokan 'recall'. 
+                       oikeasta puolueesta ennustettuun puolueeseen. Sarake: TODELLINEN PUOLUE, rivi: ennustettu puolue. 
+                       Lävistäjällä on siis kunkin luokan 'recall'. 
                        Tulokset on laskettu 5-taitteisesta ristiinvalidaatioajosta."),
-             h3("Malli"),
-             fluidRow(textOutput("quality.m1")),
+             hr(), 
              fluidRow(plotOutput("confusion.m1"))
              )
            ),

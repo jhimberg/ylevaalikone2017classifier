@@ -112,7 +112,7 @@ shinyServer(function(input, output, session) {
     p.var
   })
   
-  output$table <- DT::renderDataTable(select(ehdokkaat, -malli2),
+  output$table <- DT::renderDataTable(select(ehdokkaat, -malli2, malli=malli1),
     selection = 'single', 
     server = TRUE, 
     rownames = FALSE)
@@ -123,7 +123,8 @@ shinyServer(function(input, output, session) {
     i<-rename_(i,"p"=".")
     p.bar<-ggplot(i,aes(x=puolue,y=p))+
       geom_bar(stat="identity")+
-      ggtitle("Mallin ennuste")
+      ggtitle("Mallin ennuste")+
+      scale_y_continuous(limits = c(0, 1))
     p.bar
   })
   
@@ -135,8 +136,9 @@ shinyServer(function(input, output, session) {
     confusion.plot(C2$C$confusion.matrix, margin=2, order="original")
   })
   
-  output$quality.m1 <- renderText({
-    round(mean(as.character(C1$C$cv$oikea)==toupper(as.character(C1$C$cv$ennuste)))*1000)/10
+  output$quality.m1 <- renderText({ paste("Mallin kokonaisluokittelutarkkuus",
+    round(mean(as.character(C1$C$cv$oikea)==toupper(as.character(C1$C$cv$ennuste)))*1000)/10,
+    "%.")
   })
   
   output$quality.m2 <- renderText({
