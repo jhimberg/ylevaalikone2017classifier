@@ -373,6 +373,11 @@ shinyUI(navbarPage(
              fluidRow(plotOutput("confusion.m1"))
              )
            ),
+  tabPanel("NLP",
+  fluidPage(titlePanel("Moi!")),
+            textInput("freetext", label="Vapaateksti", value="moi"),
+  actionButton("startNLP", "Luokittele")
+  ),
   tabPanel("Kunnan koko",
            fluidPage(
              titlePanel("Kunnan koon vaikutus vastauksiin"),

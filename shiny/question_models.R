@@ -213,20 +213,21 @@ make.classifier.data <- function(classifier, yle, X) {
            classnames=classifier$glmnet.fit$classnames)  
   
   # cv.luokka
-  ennuste<-tolower(C$classnames[apply(classifier$fit.preval[,,which(C$lambda.min==C$lambda)],1,which.max)])
+  ennuste<-tolower(C$classnames[apply(classifier$fit.preval[,,which(C$lambda.min==C$lambda)], 1, which.max)])
+  ennuste <- as.data.frame(ennuste) %>% 
+    mutate(id=rownames(Z)) 
+  
+response <- classifier$fit.preval[,,which(classifier$lambda.min==classifier$lambda)] %>% as.data.frame
+names(response) <- C$classnames
+response<-mutate(response, id=rownames(X))
 
-response <- classifier$fit.preval[,,which(classifier$lambda.min==classifier$lambda)];
+C$cv <- transmute(yle, id=as.character(id), puolue.lyh) %>%
+  left_join(., response, by="id") %>%
+  left_join(., ennuste, by="id")
 
-colnames(response) <- C$classnames
-
-C$cv <- data.frame(id=yle$id, 
-                        oikea=yle$puolue.lyh,
-                        ennuste,
-                        posterior=response)
-                       
 # Confusion matrix
 
-C$confusion.matrix <- table(C$cv$ennuste,C$cv$oikea)
+C$confusion.matrix <- table(C$cv$ennuste, C$cv$oikea)
 
 ## Coefficients!
 
@@ -240,11 +241,13 @@ j<-data.frame(matrix(0,dim(X)[2]+1,length(puolue)))
 
 names(j)<-puolue
 
-for (i in puolue) j[i]<-predict(C$glmnet,s=C$lambda.min,type="coef")[[i]] %>% 
-  unlist %>% as.numeric
+for (i in puolue) j[i]<-predict(C$glmnet, s=C$lambda.min,type="coef")[[i]] %>% 
+  unlist %>% 
+  as.numeric
+
 j$question<-rownames(coef(classifier)$SDP)
 
-C$kertoimet<-melt(j, id.vars="question") %>%
+C$kertoimet <- melt(j, id.vars="question") %>%
   filter(question != "intercept") %>% 
   rename(puolue=variable, kysymys=question) %>%
   mutate(txt=ifelse(value==0,"0",sprintf("%1.2f", value))) %>% 
@@ -304,7 +307,7 @@ y=factor(yle$puolue.lyh)
 # Let's try just LASSO (alpha=1) penalization - you can check for Ridge -penalization alpha=0 which gives a bit different results 
 # or something in between like, like alpha=0.7
 
-classifier<-cv.glmnet(X,y, family="multinomial", 
+classifier<-cv.glmnet(X, y, family="multinomial", 
                       keep=TRUE, 
                       type.measure="class", 
                       standardize=TRUE, 
@@ -328,20 +331,16 @@ C1$C$var.imp$kysymys<-rownames(C1$C$var.imp)
 C2$C$var.imp<-varImp(C2$C$glmnet, lambda=C2$C$lambda.min)
 C2$C$var.imp$kysymys<-rownames(C2$C$var.imp)
 
-load()
-
 # Move the file to the proper place then...
+
+## load 
+
+CBOW <- make.classifier.data(classifier=readRDS(file="BOW_glmmodel.rds"), 
+                     X=readRDS(file="BOW_Lemmas_matrix.rds"), 
+                     yle=yle)
+
 save(file="malli.RData", C1, C2, ehdokkaat, yle)
 
-classifier <- cv.glmnet(Z, as.factor(Y$puolue.lyh), 
-                        family="multinomial", 
-                      keep=TRUE, 
-                      type.measure="class", 
-                      standardize=TRUE, 
-                      intercept=TRUE, 
-                      alpha=0.5, 
-                      nfold=5)
 
-C3$C$var.imp<-varImp(C3$C$glmnet, lambda=C3$C$lambda.min)
-C3$C$var.imp$kysymys<-rownames(C3$C$var.imp)
+
 

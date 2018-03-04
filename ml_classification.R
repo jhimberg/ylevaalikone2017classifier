@@ -1,6 +1,7 @@
 # Load some R libraries
 # You may have to install some of them first: install.packages("glmnet"), install.packages("plyr"), ...
 
+library(here)
 library(glmnet)
 library(plyr)
 library(dplyr)
@@ -63,12 +64,12 @@ yle.map<-function(x){
 # yle.orig<-read.csv("candidate_answer_data_kokomaa11042017.csv",sep=";",stringsAsFactors = FALSE)
 
 # Get YLE data zip file
-zip.file <- paste(tempdir(),"/","candidate_answer_data_kokomaa11042017.zip",sep="")
-curl_download("https://vaalit.beta.yle.fi/avoindata/candidate_answer_data_kokomaa11042017.zip", zip.file)
-unzip(zip.file, exdir=tempdir())  
+#zip.file <- paste(tempdir(),"/","candidate_answer_data_kokomaa11042017.zip",sep="")
+#curl_download("https://vaalit.beta.yle.fi/avoindata/candidate_answer_data_kokomaa11042017.zip", zip.file)
+#unzip(zip.file, exdir=tempdir())  
 
 # load from tempdir
-yle.orig<-read.csv(paste(tempdir(),"/","candidate_answer_data_kokomaa11042017.csv",sep=""),sep=";",stringsAsFactors = FALSE)
+#yle.orig<-read.csv(paste(tempdir(),"/","candidate_answer_data_kokomaa11042017.csv",sep=""),sep=";",stringsAsFactors = FALSE)
 
 # Select variables (reject city spcific and free-text answers)
 # Make some recoding: we are going to use multinomial (logistic) regression: 
@@ -91,7 +92,7 @@ yle<- select(yle.orig,
 # let's see the data now 
 View(yle) 
 
-####
+#
 # Recode Likert scale answers to numbers on a scale ... which is a bit worng but... never mind
 # the "lautakunta" question 
 
@@ -180,7 +181,7 @@ y=factor(yle$puolue.lyh)
 # Let's try just LASSO (alpha=1) penalization - you can check for Ridge -penalization alpha=0 which gives a bit different results 
 # or something in between like, like alpha=0.5
 
-classifier<-cv.glmnet(X,y,family="multinomial", 
+classifier<-cv.glmnet(X, y, family="multinomial", 
                       keep=TRUE, 
                       type.measure="class", 
                       standardize=TRUE, 

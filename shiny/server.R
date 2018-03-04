@@ -136,6 +136,11 @@ shinyServer(function(input, output, session) {
     confusion.plot(C2$C$confusion.matrix, margin=2, order="original")
   })
   
+  output$confusion.mBOW <- renderPlot({
+    confusion.plot(table(Class.bow$predicted,Class.bow$correct), margin=2, order="original")
+  })
+  
+  
   output$quality.m1 <- renderText({ paste("Mallin kokonaisluokittelutarkkuus",
     round(mean(as.character(C1$C$cv$oikea)==toupper(as.character(C1$C$cv$ennuste)))*1000)/10,
     "%.")
@@ -145,6 +150,10 @@ shinyServer(function(input, output, session) {
     round(mean(as.character(C2$C$cv$oikea)==toupper(as.character(C2$C$cv$ennuste)))*1000)/10
   })
 
+  output$quality.mBOW <- renderText({
+    round(mean(as.character(Class$predicted)==toupper(as.character(Class$correct)))*1000)/10
+  })
+  
   output$coef.m1 <- renderPlot({
     d <- C1$C$kertoimet %>% filter(kysymys != "(Intercept)")
     if (input$puolueet == "Aakkosjärjestys") {
