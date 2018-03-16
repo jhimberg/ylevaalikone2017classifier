@@ -141,6 +141,7 @@ shinyServer(function(input, output, session) {
   })
   
   
+  
   output$quality.m1 <- renderText({ paste("Mallin kokonaisluokittelutarkkuus",
     round(mean(as.character(C1$C$cv$oikea)==toupper(as.character(C1$C$cv$ennuste)))*1000)/10,
     "%.")
