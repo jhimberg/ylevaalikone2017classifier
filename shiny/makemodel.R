@@ -63,12 +63,12 @@ yle.map<-function(x){
 
 # Load population of cities on 2/2017
 # make log-transform
-
-kunta.vakiluku<- read.px(textConnection(getURL("http://pxnet2.stat.fi/PXWeb/Resources/PX/Databases/StatFin/vrm/vamuu/001_vamuu_tau_107.px"))) %>% 
-  as.data.frame %>% 
-  filter(Sukupuoli=="Sukupuolet yhteensä" & Alue!="KOKO MAA" & Kuukausi=="Helmikuu") %>%
-  select(-Kuukausi, -Sukupuoli, kunta=Alue, vakiluku=value) %>% 
-  mutate(vakiluku.lg10=log10(vakiluku), kunta=as.character(kunta))
+# This is broken: the data has vanished
+#kunta.vakiluku<- read.px(textConnection(getURL("http://pxnet2.stat.fi/PXWeb/Resources/PX/Databases/StatFin/vrm/vamuu/001_vamuu_tau_107.px"))) %>% 
+#  as.data.frame %>% 
+#  filter(Sukupuoli=="Sukupuolet yhteensä" & Alue!="KOKO MAA" & Kuukausi=="Helmikuu") %>%
+#  select(-Kuukausi, -Sukupuoli, kunta=Alue, vakiluku=value) %>% 
+#  mutate(vakiluku.lg10=log10(vakiluku), kunta=as.character(kunta))
 
 # Load YLE election candidate opinion poll data
 # If the does not wok out, load the csv file, unzip it to your R working dir
@@ -187,8 +187,8 @@ yle$xtrem<-select(yle,starts_with("X"), -starts_with("X.lautakunta")) %>%
   rowSums(.,na.rm=TRUE) 
 yle<-mutate(yle,xtrem=xtrem/33)
 
-# inhabitants in commune
-yle<-left_join(yle,kunta.vakiluku,by="kunta")
+# inhabitants in commune (no data any more at proper place)
+#yle<-left_join(yle,kunta.vakiluku,by="kunta")
 
 # Statplot: means with 95% conf interval
 # the function is based on ggplot... 

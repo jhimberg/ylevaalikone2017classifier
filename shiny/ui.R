@@ -372,25 +372,26 @@ shinyUI(navbarPage(
              hr(), 
              fluidRow(plotOutput("confusion.m1"))
              )
-           ),
-  tabPanel("Kunnan koko",
-           fluidPage(
-             titlePanel("Kunnan koon vaikutus vastauksiin"),
-             wellPanel("Kuvaajia kunnan koon (väkiluvun 2017/2 10-kantainen logaritmi) ja vastausen riippuvuudesta.", br(),br(),
-               "Eri kokoisissa kunnissa on suheessa eri määrä eri puolueiden ehdokkaita, 
-             mikä vaikuttaa tuloksiin kun kaikki ehdokkaat yhdistetään. Kannattaa siis tarkasella myös alla olevaa puoluekohtaista kuvaajaa. 
-               Kuvaaja: gam, kuutiollinen splini, neljä solmukohtaa. Likert-asteikko on koodattu lineaarinsena (-1,-1/2,0,1/2,1) 
-               asteikkona, vastaukset on kuvattu pisteenä, jotka on pystysunnassa hieman satunnaisesti (jitter) 
-               jotteivät ne täysin peitäisi toisiaan", br(),
-               selectInput(
-               "kysymykset", width="800px",
-               label = "Kysymys",
-               choices = colnames(C1$X)[!grepl("^X.Lautakunta",colnames(C1$X))])),
-             h3("Kaikki puolueet yhdessä"),
-             fluidRow(plotOutput("kysymykset.kaikki",width = "70%",height="600px")),
-             h3("Puolueittain"),
-             fluidRow(plotOutput("kysymykset.puolue",width = "70%",height="600px")))
-             )
+           )
+  #,
+  #tabPanel("Kunnan koko",
+  #         fluidPage(
+  #           titlePanel("Kunnan koon vaikutus vastauksiin"),
+  #           wellPanel("Kuvaajia kunnan koon (väkiluvun 2017/2 10-kantainen logaritmi) ja vastausen riippuvuudesta.", br(),br(),
+  #             "Eri kokoisissa kunnissa on suheessa eri määrä eri puolueiden ehdokkaita, 
+  #           mikä vaikuttaa tuloksiin kun kaikki ehdokkaat yhdistetään. Kannattaa siis tarkasella myös alla olevaa puoluekohtaista kuvaajaa. 
+  #             Kuvaaja: gam, kuutiollinen splini, neljä solmukohtaa. Likert-asteikko on koodattu lineaarinsena (-1,-1/2,0,1/2,1) 
+  #             asteikkona, vastaukset on kuvattu pisteenä, jotka on pystysunnassa hieman satunnaisesti (jitter) 
+  #             jotteivät ne täysin peitäisi toisiaan", br(),
+  #             selectInput(
+  #             "kysymykset", width="800px",
+  #             label = "Kysymys",
+  #             choices = colnames(C1$X)[!grepl("^X.Lautakunta",colnames(C1$X))])),
+  #           h3("Kaikki puolueet yhdessä"),
+  #           fluidRow(plotOutput("kysymykset.kaikki",width = "70%",height="600px")),
+  #           h3("Puolueittain"),
+  #           fluidRow(plotOutput("kysymykset.puolue",width = "70%",height="600px")))
+  #           )
   )
 )
 

@@ -1,6 +1,6 @@
 
 # Muuta hakemisto oikeaksi!!
-load("./malli.RData")
+load("../malli.RData")
 
 ## Ristiinvalidoinnin antama luokittelu sekaannusmatriisiin!
 
