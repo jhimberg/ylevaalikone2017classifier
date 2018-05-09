@@ -11,6 +11,5 @@ The script will load the zipped data file from YLE site.
 
 ## Shiny
 
-Folder `shiny` contains Shiny application that includes interactive version of the classifier (in Finnish). Run the script `makemodel.R` first. It creates the classification results into file `malli1.RData` that is then used by the shiny app.
-
+Folder `shiny` contains Shiny application that includes interactive version of the classifier (in Finnish). Run the script `makemodel.R` first. It creates the classification results into file `malli.RData` that is then used by the shiny app. Model is loaded in `shiny/global.R` - make sure that `malli.RData` is on the right path.
 
